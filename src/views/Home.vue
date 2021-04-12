@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <b-row align-v="center">
-      <Card></Card>
+      <Card v-for="curso in cursos" :key="curso.id" :nome="curso.nome"></Card>
     </b-row>
   </b-container>
 </template>
@@ -12,8 +12,24 @@ import Card from '@/components/Card.vue';
 
 export default {
   name: 'Home',
+  data() {
+    return {
+      cursos: []
+    }
+  },
   components: {
-    Card
-  }
+    Card,
+  },
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData () {
+      const res = await fetch("cursos.json");
+      const val = await res.json();
+      this.cursos = val;
+      console.log(val);
+    }
+  },
 }
 </script>
